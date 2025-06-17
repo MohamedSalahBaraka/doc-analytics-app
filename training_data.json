@@ -1,0 +1,334 @@
+[
+  {
+    "text": "Invoice #1244 issued for consulting services rendered in May. Total due: $5,000.",
+    "label": "Business > Billing > Invoice"
+  },
+  {
+    "text": "Income statement and tax summary for the fiscal year 2024.",
+    "label": "Finance > Accounting > Tax"
+  },
+  {
+    "text": "Online education platforms are transforming how university students learn.",
+    "label": "Education > Higher Ed > Online Learning"
+  },
+  {
+    "text": "Patient billing information and insurance records are now digitized.",
+    "label": "Healthcare > Administrative > Billing"
+  },
+  {
+    "text": "Startup pitch deck outlining small business funding needs.",
+    "label": "Finance > Investment > Small Business"
+  },
+  {
+    "text": "Kindergarten weekly learning schedule for math and reading.",
+    "label": "Education > Primary > Kindergarten"
+  },
+  {
+    "text": "Audit findings for Q3 internal financial operations.",
+    "label": "Finance > Accounting > Audit"
+  },
+  {
+    "text": "Summary of surgical procedures completed in October.",
+    "label": "Healthcare > Clinical > Surgery"
+  },
+  {
+    "text": "Plan for business expansion and competitive market positioning.",
+    "label": "Business > Strategy > Plans"
+  },
+  {
+    "text": "Stock market overview and investment strategies for new traders.",
+    "label": "Finance > Investment > Stocks"
+  },
+  {
+    "text": "University course catalog for the 2025 academic year.",
+    "label": "Education > Higher Ed > University"
+  },
+  {
+    "text": "Diagnosis and treatment notes for general practice patients.",
+    "label": "Healthcare > Clinical > Diagnosis"
+  },
+  {
+    "text": "Monthly receipts and purchases from vendor partners.",
+    "label": "Business > Billing > Receipts"
+  },
+  {
+    "text": "Report on team productivity and revenue generation over the last 6 months.",
+    "label": "Business > Strategy > Reports"
+  },
+  {
+    "text": "Contract agreement for software development services with payment milestones.",
+    "label": "Business > Legal > Contracts"
+  },
+  {
+    "text": "Quarterly earnings call transcript highlighting revenue growth.",
+    "label": "Finance > Corporate > Earnings"
+  },
+  {
+    "text": "Lesson plans for middle school science classes covering biology topics.",
+    "label": "Education > Primary > Middle School"
+  },
+  {
+    "text": "Patient discharge summary and follow-up care instructions.",
+    "label": "Healthcare > Clinical > Discharge"
+  },
+  {
+    "text": "Marketing budget allocation for social media campaigns in 2025.",
+    "label": "Business > Marketing > Budget"
+  },
+  {
+    "text": "Research paper on AI applications in early childhood education.",
+    "label": "Education > Research > AI"
+  },
+  {
+    "text": "Pharmaceutical trial results for a new diabetes medication.",
+    "label": "Healthcare > Research > Clinical Trials"
+  },
+  {
+    "text": "Employee onboarding checklist and training materials.",
+    "label": "Business > HR > Onboarding"
+  },
+  {
+    "text": "Cryptocurrency market trends and blockchain adoption rates.",
+    "label": "Finance > Investment > Crypto"
+  },
+  {
+    "text": "High school curriculum update for advanced placement courses.",
+    "label": "Education > Secondary > High School"
+  },
+  {
+    "text": "HIPAA compliance guidelines for electronic health records.",
+    "label": "Healthcare > Administrative > Compliance"
+  },
+  {
+    "text": "Press release announcing a new product launch next quarter.",
+    "label": "Business > Marketing > PR"
+  },
+  {
+    "text": "Balance sheet reconciliation for year-end financial reporting.",
+    "label": "Finance > Accounting > Reconciliation"
+  },
+  {
+    "text": "Scholarship application guidelines for undergraduate students.",
+    "label": "Education > Higher Ed > Scholarships"
+  },
+  {
+    "text": "Emergency room wait times and patient satisfaction survey.",
+    "label": "Healthcare > Administrative > Patient Experience"
+  },
+  {
+    "text": "Workshop agenda for leadership training sessions.",
+    "label": "Business > HR > Training"
+  },
+  {
+    "text": "Venture capital funding round details for Series A startups.",
+    "label": "Finance > Investment > Venture Capital"
+  },
+  {
+    "text": "Field trip permission slip for elementary school students.",
+    "label": "Education > Primary > Field Trips"
+  },
+  {
+    "text": "Radiology imaging reports for outpatient clinic patients.",
+    "label": "Healthcare > Clinical > Radiology"
+  },
+  {
+    "text": "Revised contract draft for the Acme Corp partnership, pending legal review.",
+    "label": "Business > Legal > Contracts"
+  },
+  {
+    "text": "Q3 social media ad spend report: $12,000 allocated to LinkedIn and Meta.",
+    "label": "Business > Marketing > Budget"
+  },
+  {
+    "text": "Employee grievance filed against manager for workplace harassment.",
+    "label": "Business > HR > Complaints"
+  },
+  {
+    "text": "Non-disclosure agreement (NDA) template for freelance contractors.",
+    "label": "Business > Legal > Agreements"
+  },
+  {
+    "text": "Customer churn analysis showing a 15% drop in retail subscriptions.",
+    "label": "Business > Strategy > Analytics"
+  },
+  {
+    "text": "Invoice #3098 overdue by 45 days; reminder sent to client.",
+    "label": "Business > Billing > Collections"
+  },
+  {
+    "text": "Branding guidelines document for the 2025 rebranding initiative.",
+    "label": "Business > Marketing > Branding"
+  },
+  {
+    "text": "Remote work policy update requiring 3 days/week in-office starting June.",
+    "label": "Business > HR > Policies"
+  },
+  {
+    "text": "PO #4421 for 50 units of warehouse shelving from Vendor XYZ.",
+    "label": "Business > Procurement > Orders"
+  },
+  {
+    "text": "Keynote slides for the annual shareholder meeting next week.",
+    "label": "Business > Corporate > Presentations"
+  },
+  {
+    "text": "Service Level Agreement (SLA) with response time guarantees.",
+    "label": "Business > Legal > SLAs"
+  },
+  {
+    "text": "Competitor pricing analysis for Q2 2025 in the SaaS industry.",
+    "label": "Business > Strategy > Competitive Analysis"
+  },
+  {
+    "text": "Bitcoin ETF approval impact report for institutional investors.",
+    "label": "Finance > Investment > Crypto"
+  },
+  {
+    "text": "Tax deduction checklist for freelancers and gig workers.",
+    "label": "Finance > Accounting > Tax"
+  },
+  {
+    "text": "Forex trading risks and volatility trends in emerging markets.",
+    "label": "Finance > Trading > Forex"
+  },
+  {
+    "text": "Internal audit reveals discrepancies in petty cash handling.",
+    "label": "Finance > Accounting > Audit"
+  },
+  {
+    "text": "Seed funding term sheet for $2M raised by TechStart Inc.",
+    "label": "Finance > Investment > Venture Capital"
+  },
+  {
+    "text": "Monthly payroll reconciliation for 85 employees.",
+    "label": "Finance > Accounting > Payroll"
+  },
+  {
+    "text": "Pension plan options and 401(k) matching guidelines.",
+    "label": "Finance > Corporate > Benefits"
+  },
+  {
+    "text": "Real estate crowdfunding ROI projections for 2025-2026.",
+    "label": "Finance > Investment > Real Estate"
+  },
+  {
+    "text": "Fraud alert: Unauthorized wire transfer detected.",
+    "label": "Finance > Risk > Fraud"
+  },
+  {
+    "text": "Basel III compliance checklist for regional banks.",
+    "label": "Finance > Regulatory > Compliance"
+  },
+  {
+    "text": "Dividend distribution schedule for preferred shareholders.",
+    "label": "Finance > Corporate > Dividends"
+  },
+  {
+    "text": "Cost-benefit analysis of migrating to cloud-based accounting software.",
+    "label": "Finance > Strategy > Cost Analysis"
+  },
+  {
+    "text": "Microfinance loan approvals for rural small businesses.",
+    "label": "Finance > Investment > Microfinance"
+  },
+  {
+    "text": "IRS Form 1099-MISC processing instructions for contractors.",
+    "label": "Finance > Accounting > Tax Forms"
+  },
+  {
+    "text": "STEM grant application deadline extended to August 30.",
+    "label": "Education > Funding > Grants"
+  },
+  {
+    "text": "Parent-teacher conference schedule for Fall 2025.",
+    "label": "Education > Primary > Conferences"
+  },
+  {
+    "text": "PhD dissertation submission guidelines for the biology department.",
+    "label": "Education > Higher Ed > Research"
+  },
+  {
+    "text": "Special education IEP (Individualized Education Program) draft.",
+    "label": "Education > Primary > Special Ed"
+  },
+  {
+    "text": "Summer coding bootcamp for high school students: Enrollment open.",
+    "label": "Education > Secondary > STEM"
+  },
+  {
+    "text": "Faculty tenure review process and evaluation criteria.",
+    "label": "Education > Higher Ed > Faculty"
+  },
+  {
+    "text": "Field trip permission slip for the museum visit on May 15.",
+    "label": "Education > Primary > Field Trips"
+  },
+  {
+    "text": "SAT prep workshop materials and practice tests.",
+    "label": "Education > Secondary > Test Prep"
+  },
+  {
+    "text": "Librarian training manual for new digital resource management tools.",
+    "label": "Education > Administrative > Training"
+  },
+  {
+    "text": "Comparative analysis of Montessori vs. traditional kindergarten curricula.",
+    "label": "Education > Primary > Pedagogy"
+  },
+  {
+    "text": "Campus safety protocol updates for dormitory residents.",
+    "label": "Education > Higher Ed > Safety"
+  },
+  {
+    "text": "Scholarship donor thank-you letter template.",
+    "label": "Education > Funding > Donors"
+  },
+  {
+    "text": "HIPAA violation report from unauthorized EHR access incident.",
+    "label": "Healthcare > Administrative > Compliance"
+  },
+  {
+    "text": "Physical therapy progress notes for post-op knee replacement.",
+    "label": "Healthcare > Clinical > Rehabilitation"
+  },
+  {
+    "text": "FDA Phase III trial results for Alzheimer's drug candidate.",
+    "label": "Healthcare > Research > Clinical Trials"
+  },
+  {
+    "text": "ER nurse shift schedule for December 2025.",
+    "label": "Healthcare > Administrative > Staffing"
+  },
+  {
+    "text": "Telemedicine platform usability feedback from patients.",
+    "label": "Healthcare > Technology > Telehealth"
+  },
+  {
+    "text": "Pharmacy inventory report: Oxycodone shortage expected.",
+    "label": "Healthcare > Administrative > Inventory"
+  },
+  {
+    "text": "Pediatric vaccination records for school enrollment.",
+    "label": "Healthcare > Clinical > Pediatrics"
+  },
+  {
+    "text": "Medical billing dispute resolution case #4492.",
+    "label": "Healthcare > Administrative > Billing"
+  },
+  {
+    "text": "Palliative care guidelines for terminal cancer patients.",
+    "label": "Healthcare > Clinical > End-of-Life"
+  },
+  {
+    "text": "MRI scan results for patient ID #7783 (lower back pain).",
+    "label": "Healthcare > Clinical > Radiology"
+  },
+  {
+    "text": "Nutritional meal plan for diabetic patients.",
+    "label": "Healthcare > Clinical > Dietetics"
+  },
+  {
+    "text": "Robotic surgery training program for resident surgeons.",
+    "label": "Healthcare > Technology > Surgical Tech"
+  }
+]

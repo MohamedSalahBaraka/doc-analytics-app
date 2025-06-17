@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document Details - {{ document.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .document-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .metadata-card {
+            background-color: #f8f9fa;
+        }
+
+        .content-card {
+            background-color: white;
+        }
+
+        .classification-badge {
+            font-size: 1rem;
+        }
+
+        .back-button {
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateX(-3px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col">
+                <a href="/" class="btn btn-outline-secondary back-button">
+                    <i class="bi bi-arrow-left"></i> Back to Documents
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card document-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2>{{ document.title }}</h2>
+                        {% if document.classification %}
+                        <span class="badge bg-info classification-badge p-2">
+                            <i class="bi bi-tag"></i> {{ document.classification }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card metadata-card p-3 mb-3">
+                                <h5><i class="bi bi-file-earmark-text"></i> File Information</h5>
+                                <hr>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>File Type:</strong>
+                                        <span class="badge bg-primary">{{ document.filetype or "N/A" }}</span>
+                                    </li>
+                                    <li class="mb-2"><strong>Size:</strong>
+                                        {{ "%.2f"|format(document.metadata.size/1024) if document.metadata and document.metadata.size else "N/A" }} KB
+                                    </li>
+                                    <li class="mb-2"><strong>Created:</strong>
+                                        {{ document.metadata.created or "Unknown" }}
+                                    </li>
+                                    <li class="mb-2"><strong>Modified:</strong>
+                                        {{ document.metadata.modified or "Unknown" }}
+                                    </li>                                    
+                                    <li class="mb-2"><a href="/download/{{ doc.filename }}" class="btn btn-sm btn-outline-success ms-1">
+                                        <i class="bi bi-download"></i> Download
+                                    </a>
+                                    </li>                                    
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card metadata-card p-3">
+                                <h5><i class="bi bi-bar-chart"></i> Document Statistics</h5>
+                                <hr>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>Word Count:</strong> {{ document.content|wordcount }}</li>
+                                    <li class="mb-2"><strong>Character Count:</strong> {{ document.content|length }}
+                                    </li>
+                                    <li class="mb-2"><strong>Estimated Reading Time:</strong> {{
+                                        (document.content|wordcount / 200)|round(1) }} minutes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card content-card p-4">
+                        <h5 class="mb-3"><i class="bi bi-file-text"></i> Content Preview</h5>
+                        <div class="document-content" style="max-height: 500px; overflow-y: auto;">
+                            {% if document.content|length > 2000 %}
+                            <p>{{ document.content[:2000] }}...</p>
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> Content truncated. View full content in original file.
+                            </div>
+                            {% else %}
+                            <p>{{ document.content }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card p-4">
+                    <h5 class="mb-3"><i class="bi bi-lightning"></i> Quick Actions</h5>
+                    <div class="d-flex gap-2">
+                        <a href="/classify" class="btn btn-warning">
+                            <i class="bi bi-tags"></i> Reclassify Documents
+                        </a>
+                        <form method="POST" action="/retrain" class="d-inline">
+                            <button type="submit" class="btn btn-info">
+                                <i class="bi bi-arrow-repeat"></i> Retrain Classifier
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-3 text-center text-muted">
+        <p>Document Analytics System &copy; {{ now.year }}</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
