@@ -1,57 +1,86 @@
 from PyPDF2 import PdfReader
 import docx
 import os
+from io import BytesIO
+import magic  # You'll need to install python-magic (pip install python-magic)
 
-def extract_pdf_title(filepath):
+def get_file_type(file_obj, filename=None):
+    # First try to determine from filename
+    if filename:
+        ext = os.path.splitext(filename)[1].lower()
+        if ext in ('.pdf', '.docx', '.txt'):
+            return ext
+    
+    # Then try magic to detect from content
     try:
-        reader = PdfReader(filepath)
-        return reader.metadata.title or None
+        file_obj.seek(0)
+        header = file_obj.read(1024)
+        file_obj.seek(0)
+        
+        mime = magic.from_buffer(header, mime=True)
+        if mime == 'application/pdf':
+            return '.pdf'
+        elif mime in ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                     'application/msword'):
+            return '.docx'
+        elif mime == 'text/plain':
+            return '.txt'
     except:
-        return None
+        pass
+    
+    return ''
 
-def extract_docx_title(filepath):
-    try:
-        doc = docx.Document(filepath)
-        props = doc.core_properties
-        return props.title or None
-    except:
-        return None
-
-def parse_document(filepath):
+def parse_document(file_obj, filename=None):
     text = ""
     title = None
-    ext = os.path.splitext(filepath)[1].lower()
-
-    if ext == ".pdf":
-        title = extract_pdf_title(filepath)
-        try:
-            with open(filepath, 'rb') as f:
-                reader = PdfReader(f)
+    file_type = get_file_type(file_obj, filename)
+    
+    try:
+        file_obj.seek(0)  # Ensure we're at the start
+        
+        if file_type == '.pdf':
+            try:
+                reader = PdfReader(file_obj)
+                title = reader.metadata.title if reader.metadata else None
                 for page in reader.pages:
                     content = page.extract_text()
                     if content:
                         text += content + "\n"
-        except Exception as e:
-            print(f"[ERROR] Failed to read PDF: {e}")
-
-    elif ext == ".docx":
-        title = extract_docx_title(filepath)
-        try:
-            doc = docx.Document(filepath)
-            for para in doc.paragraphs:
-                text += para.text + "\n"
-        except Exception as e:
-            print(f"[ERROR] Failed to read DOCX: {e}")
-
-    # Fallback title from first line of content
-    if not title and text.strip():
-        title = text.split("\n")[0]
-
-    snippet = text[:300]
+            except Exception as e:
+                print(f"[PDF ERROR] {e}")
+                
+        elif file_type == '.docx':
+            try:
+                doc = docx.Document(file_obj)
+                props = doc.core_properties
+                title = props.title if props else None
+                for para in doc.paragraphs:
+                    text += para.text + "\n"
+            except Exception as e:
+                print(f"[DOCX ERROR] {e}")
+                
+        elif file_type == '.txt':
+            try:
+                text = file_obj.read().decode('utf-8')
+            except UnicodeDecodeError:
+                try:
+                    text = file_obj.read().decode('latin-1')
+                except Exception as e:
+                    print(f"[TXT ERROR] {e}")
+            except Exception as e:
+                print(f"[TXT ERROR] {e}")
+        
+        # Fallback title from first line of content
+        if not title and text.strip():
+            title = text.split("\n")[0].strip()
+            
+    except Exception as e:
+        print(f"[GENERAL ERROR] {e}")
+    
     return {
-        "filename": os.path.basename(filepath),
+        "filename": filename or getattr(file_obj, 'name', 'unknown'),
         "title": (title or "Untitled").strip(),
-        "snippet": snippet.strip(),
+        "snippet": text[:300].strip(),
         "content": text,
         "classification": None
     }

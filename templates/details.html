@@ -78,7 +78,7 @@
                                     <li class="mb-2"><strong>Modified:</strong>
                                         {{ document.metadata.modified or "Unknown" }}
                                     </li>                                    
-                                    <li class="mb-2"><a href="/download/{{ doc.filename }}" class="btn btn-sm btn-outline-success ms-1">
+                                    <li class="mb-2"><a href="/download/{{ document.filename }}" class="btn btn-sm btn-outline-success ms-1">
                                         <i class="bi bi-download"></i> Download
                                     </a>
                                     </li>                                    
@@ -123,9 +123,9 @@
                 <div class="card p-4">
                     <h5 class="mb-3"><i class="bi bi-lightning"></i> Quick Actions</h5>
                     <div class="d-flex gap-2">
-                        <a href="/classify" class="btn btn-warning">
+                        <!-- <a href="/classify" class="btn btn-warning">
                             <i class="bi bi-tags"></i> Reclassify Documents
-                        </a>
+                        </a> -->
                         <form method="POST" action="/retrain" class="d-inline">
                             <button type="submit" class="btn btn-info">
                                 <i class="bi bi-arrow-repeat"></i> Retrain Classifier
