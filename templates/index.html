@@ -108,6 +108,21 @@
                             <button class="btn btn-success"><i class="bi bi-search"></i> Search</button>
                         </div>
                     </form>
+                    {% if keyword %}
+                    <div class="mt-3">
+                        <h5>Search Results for: <span class="text-primary">{{ keyword }}</span></h5>
+                        {% if documents|length == 0 %}
+                        <div class="alert alert-warning mt-2">
+                            No results found for "{{ keyword }}". Please try a different term.
+                        </div>
+                        {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if search_time %}
+                    <div class="mt-3">
+                        <h5>Search time: <span class="text-primary">{{ search_time }}seconds</span></h5>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -186,17 +201,58 @@
                     {% else %}
                     <div class="table-responsive">
                         <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Filename</th>
-                                    <th>Type</th>
-                                    <th>Size</th>
-                                    <th>Created</th>
-                                    <th>Classification</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
+                        <!-- In your index.html file, modify the table header section -->
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a
+                                        href="?sort_by=title&sort_order={% if sort_by == 'title' and sort_order == 'asc' %}desc{% else %}asc{% endif %} {% if keyword %}&keyword={{ keyword }}{% endif %}">
+                                        Title
+                                        {% if sort_by == 'title' %}
+                                        <i class="bi bi-caret-{% if sort_order == 'asc' %}up{% else %}down{% endif %}-fill"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+                                <th>
+                                    <a
+                                        href="?sort_by=filename&sort_order={% if sort_by == 'filename' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if keyword %}&keyword={{ keyword }}{% endif %}">
+                                        Filename
+                                        {% if sort_by == 'filename' %}
+                                        <i class="bi bi-caret-{% if sort_order == 'asc' %}up{% else %}down{% endif %}-fill"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+                                <th>Type</th>
+                                <th>
+                                    <a
+                                        href="?sort_by=size&sort_order={% if sort_by == 'size' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if keyword %}&keyword={{ keyword }}{% endif %}">
+                                        Size
+                                        {% if sort_by == 'size' %}
+                                        <i class="bi bi-caret-{% if sort_order == 'asc' %}up{% else %}down{% endif %}-fill"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+                                <th>
+                                    <a
+                                        href="?sort_by=created&sort_order={% if sort_by == 'created' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if keyword %}&keyword={{ keyword }}{% endif %}">
+                                        Created
+                                        {% if sort_by == 'created' %}
+                                        <i class="bi bi-caret-{% if sort_order == 'asc' %}up{% else %}down{% endif %}-fill"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+                                <th>
+                                    <a
+                                        href="?sort_by=classification&sort_order={% if sort_by == 'classification' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if keyword %}&keyword={{ keyword }}{% endif %}">
+                                        Classification
+                                        {% if sort_by == 'classification' %}
+                                        <i class="bi bi-caret-{% if sort_order == 'asc' %}up{% else %}down{% endif %}-fill"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                             <tbody>
                                 {% for doc in documents %}
                                 <tr onclick="window.location='/details/{{ doc.filename }}'" style="cursor: pointer;">
@@ -219,14 +275,23 @@
                                         <span class="badge bg-secondary classification-badge">Not classified</span>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <a href="/details/{{ doc.filename }}" class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye"></i> View
+                                            <i class="bi bi-eye"></i>
                                         </a>
                                         <a href="/download/{{ doc.filename }}" class="btn btn-sm btn-outline-success ms-1">
-                                            <i class="bi bi-download"></i> Download
+                                            <i class="bi bi-download"></i>
                                         </a>
-                                    </td>
+                                        <a href="/update/{{ doc.filename }}" class="btn btn-sm btn-outline-warning ms-1">
+                                            <i class="bi bi-pencil-square"></i> Update
+                                        </a>                                        
+                                        <form method="POST" action="/delete/{{ doc.filename }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger ms-1"
+                                                onclick="return confirm('Are you sure you want to delete {{ doc.filename }}?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>                                    
                                 </tr>                                
                                 {% endfor %}
                             </tbody>

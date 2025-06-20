@@ -50,7 +50,7 @@ def save_file_locally(file, filename):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     file.save(filepath)
 
-def load_logged_documents():
+def load_logged_documents(sort_by='title', sort_order='asc'):
     documents = []
     if not os.path.exists("classified_log.json"):
         return documents
@@ -61,9 +61,10 @@ def load_logged_documents():
                 log = json.loads(line.strip())
                 documents.append({
                     "filename": log.get("filename", "unknown"),
-                    "metadata":log.get("metadata", {
-                        "created":datetime.now().isoformat(),
-                        "modified":datetime.now().isoformat(),
+                    "title": log.get("title", "unknown"),
+                    "metadata": log.get("metadata", {
+                        "created": datetime.now().isoformat(),
+                        "modified": datetime.now().isoformat(),
                         "size": 0
                     }),
                     "filetype": os.path.splitext(log.get("filename", "unknown"))[1][1:].upper(),
@@ -72,8 +73,21 @@ def load_logged_documents():
                 })
             except json.JSONDecodeError:
                 continue
-    return documents
 
+    # Sorting logic
+    reverse_order = sort_order == 'desc'
+    if sort_by == 'title':
+        documents.sort(key=lambda x: x['title'].lower(), reverse=reverse_order)
+    elif sort_by == 'filename':
+        documents.sort(key=lambda x: x['filename'].lower(), reverse=reverse_order)
+    elif sort_by == 'size':
+        documents.sort(key=lambda x: x['metadata'].get('size', 0), reverse=reverse_order)
+    elif sort_by == 'created':
+        documents.sort(key=lambda x: x['metadata'].get('created', ''), reverse=reverse_order)
+    elif sort_by == 'classification':
+        documents.sort(key=lambda x: x['classification'].lower(), reverse=reverse_order)
+
+    return documents
 @app.route('/download/<filename>')
 def download_file(filename):
     file_content = download_file_from_local(filename)
@@ -105,6 +119,7 @@ def index():
 
                 log_entry = {
                     "filename": file.filename,
+                    "title": result["title"],
                     "text": result["content"][:500],  # keep this light
                     "predicted_label": classification,
                     "timestamp": datetime.now().isoformat(),
@@ -122,9 +137,15 @@ def index():
         return redirect(url_for("index"))
 
     # Load from classification log
-    documents = load_logged_documents()
+    sort_by = request.args.get('sort_by', 'title')
+    sort_order = request.args.get('sort_order', 'asc')
+    
+    # Load from classification log with sorting
+    documents = load_logged_documents(sort_by=sort_by, sort_order=sort_order)
     stats = get_statistics(documents)
-    return render_template("index.html", documents=documents, stats=stats)
+    return render_template("index.html", documents=documents, stats=stats,
+        sort_by=sort_by,
+        sort_order=sort_order)
 
 @app.route("/search", methods=["POST"])
 def search():
@@ -132,13 +153,33 @@ def search():
     if not keyword:
         return redirect(url_for("index"))
 
+    # Get sorting parameters from request
+    sort_by = request.args.get('sort_by', 'title')
+    sort_order = request.args.get('sort_order', 'asc')
+    
     results = search_documents(keyword, app.config['UPLOAD_FOLDER'])
-    stats = get_statistics(results)  # Make sure get_statistics can handle this format
+    stats = get_statistics(results['results'])
+    
+    # Sort the results
+    reverse_order = sort_order == 'desc'
+    if sort_by == 'title':
+        results['results'].sort(key=lambda x: x['title'].lower(), reverse=reverse_order)
+    elif sort_by == 'filename':
+        results['results'].sort(key=lambda x: x['filename'].lower(), reverse=reverse_order)
+    elif sort_by == 'size':
+        results['results'].sort(key=lambda x: x['metadata'].get('size', 0), reverse=reverse_order)
+    elif sort_by == 'created':
+        results['results'].sort(key=lambda x: x['metadata'].get('created', ''), reverse=reverse_order)
+    elif sort_by == 'classification':
+        results['results'].sort(key=lambda x: x['classification'].lower(), reverse=reverse_order)
     
     return render_template("index.html", 
-                         documents=results, 
+                         documents=results['results'],
+                         search_time=results['search_time'], 
                          keyword=keyword, 
-                         stats=stats)
+                         stats=stats,
+                         sort_by=sort_by,
+                         sort_order=sort_order)
 @app.route("/retrain", methods=["POST"])
 def retrain():
     classifier.load_training_data()
@@ -163,6 +204,109 @@ def document_details(filename):
     })
 
     return render_template("details.html", document=doc)
+import json
+import os
+
+@app.route("/delete/<filename>", methods=["POST"])
+def delete_document(filename):
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+    # Remove the file if exists
+    if os.path.exists(filepath):
+        os.remove(filepath)
+
+    # Remove from classified_log.json
+    try:
+        if os.path.exists("classified_log.json"):
+            with open("classified_log.json", "r", encoding="utf-8") as f:
+                lines = f.readlines()
+
+            # Filter out the document to delete
+            updated_entries = []
+            for line in lines:
+                try:
+                    entry = json.loads(line)
+                    if entry.get("filename") != filename:
+                        updated_entries.append(entry)
+                except json.JSONDecodeError:
+                    # Skip malformed lines or keep them? Here we skip
+                    continue
+
+            # Rewrite the file without the deleted document
+            with open("classified_log.json", "w", encoding="utf-8") as f:
+                for entry in updated_entries:
+                    f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception as e:
+        print(f"Error updating classified_log.json: {e}")
+
+    return redirect("/")  # or wherever you want
+@app.route("/update/<filename>", methods=["GET", "POST"])
+def update_document(filename):
+    filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+    if request.method == "POST":
+        new_file = request.files.get("new_file")
+        if not new_file or new_file.filename == '':
+            return "No file selected", 400
+        print(f"Updating file: {filename}, new file: {new_file.filename}")
+        try:
+            # Save the new file (overwrite existing)
+            save_file_locally(new_file, filename)
+
+            # Re-parse and classify
+            new_file.seek(0)
+            file_bytes = new_file.read()
+            file_obj = BytesIO(file_bytes)
+
+            result = parse_document(file_obj, filename=filename)
+            classification = classifier.classify(result["snippet"])
+
+            # Load all previous entries
+            documents = load_logged_documents()
+
+            # Update or insert the new entry
+            updated_log = []
+            found = False
+            for doc in documents:
+                if doc["filename"] == filename:
+                    doc["text"] = result["content"][:500]
+                    doc["title"] = result["title"]
+                    doc["predicted_label"] = classification
+                    doc["timestamp"] = datetime.now().isoformat()
+                    doc["metadata"] = {
+                        "created": doc.get("metadata", {}).get("created", datetime.now().isoformat()),
+                        "modified": datetime.now().isoformat(),
+                        "size": len(file_bytes),
+                    }
+                    found = True
+                updated_log.append(doc)
+
+            if not found:
+                updated_log.append({
+                    "filename": filename,
+                    "text": result["content"][:500],
+                    "title": result["title"],
+                    "predicted_label": classification,
+                    "timestamp": datetime.now().isoformat(),
+                    "metadata": {
+                        "created": datetime.now().isoformat(),
+                        "modified": datetime.now().isoformat(),
+                        "size": len(file_bytes),
+                    }
+                })
+
+            # Rewrite the log
+            with open("classified_log.json", "w", encoding='utf-8') as log_file:
+                for entry in updated_log:
+                    log_file.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+        except Exception as e:
+            print(f"Error updating file {filename}: {e}")
+            return f"Failed to update document: {e}", 500
+
+        return redirect(url_for("index"))
+
+    return render_template("update.html", filename=filename)
 
 if __name__ == "__main__":
     import os

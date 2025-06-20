@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Update {{ filename }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <h3 class="mb-3">Update: {{ filename }}</h3>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="new_file" class="form-label">Choose a new file to replace</label>
+                <input type="file" class="form-control" id="new_file" name="new_file" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update File</button>
+            <a href="/" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</body>
+
+</html>
