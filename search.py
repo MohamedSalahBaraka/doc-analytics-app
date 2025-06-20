@@ -91,6 +91,7 @@ def search_documents(keyword, upload_folder="uploads"):
                         results.append({
                             "filename": file_path.name,
                             "content": content,
+                            "title": result['title'],
                             "classification": None,  # You can add classification if needed
                             "snippet": snippet,
                             "metadata": metadata,
